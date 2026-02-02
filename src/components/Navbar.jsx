@@ -31,7 +31,7 @@ const Navbar = () => {
                 letterSpacing: "0.5px",
               }}
             >
-              SpotterAI
+              DriveSheet
             </Typography>
           </Box>
 
