@@ -77,7 +77,7 @@ const MapView = ({ route, stops = [] }) => {
 
   const center = polyline[Math.floor(polyline.length / 2)];
 
-  // Build marker positions with icons based on TYPE (not position)
+  // marker positions with icons based on TYPE (not position)
   const markerData = stops.length > 0
     ? stops.map((s, i) => {
         let position = [s.lat || 0, s.lng || 0];
