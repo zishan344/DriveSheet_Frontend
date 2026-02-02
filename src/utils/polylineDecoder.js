@@ -1,24 +1,41 @@
-// Decode Google Maps encoded polyline format to lat/lng coordinates
+// Robust decoder for Google encoded polyline
+// Returns an array of [lat, lng] coordinates
 export const decodePolyline = (encoded) => {
-  if (!encoded) return [];
-  
-  const inv = 1.0 / 1e5;
-  const decoded = [];
-  let previous = [0, 0];
-  
-  for (let i = 0, ll = encoded.length; i < ll; i++) {
-    let ll2 = encoded.charCodeAt(i) - 63;
-    ll2 |= (encoded.charCodeAt(++i) - 63) << 5;
-    ll2 = ((ll2 & 1) ? ~(ll2 >> 1) : (ll2 >> 1));
-    previous[0] += ll2;
-    ll2 = encoded.charCodeAt(++i) - 63;
-    ll2 |= (encoded.charCodeAt(++i) - 63) << 5;
-    ll2 = ((ll2 & 1) ? ~(ll2 >> 1) : (ll2 >> 1));
-    previous[1] += ll2;
-    
-    // Return [lat, lng] format for Leaflet
-    decoded.push([previous[0] * inv, previous[1] * inv]);
+  if (!encoded || typeof encoded !== 'string') return [];
+
+  const coordinates = [];
+  let index = 0;
+  let lat = 0;
+  let lng = 0;
+
+  while (index < encoded.length) {
+    let result = 0;
+    let shift = 0;
+    let byte = null;
+
+    do {
+      byte = encoded.charCodeAt(index++) - 63;
+      result |= (byte & 0x1f) << shift;
+      shift += 5;
+    } while (byte >= 0x20);
+
+    const deltaLat = (result & 1) ? ~(result >> 1) : (result >> 1);
+    lat += deltaLat;
+
+    result = 0;
+    shift = 0;
+
+    do {
+      byte = encoded.charCodeAt(index++) - 63;
+      result |= (byte & 0x1f) << shift;
+      shift += 5;
+    } while (byte >= 0x20);
+
+    const deltaLng = (result & 1) ? ~(result >> 1) : (result >> 1);
+    lng += deltaLng;
+
+    coordinates.push([lat / 1e5, lng / 1e5]);
   }
-  
-  return decoded;
+
+  return coordinates;
 };
