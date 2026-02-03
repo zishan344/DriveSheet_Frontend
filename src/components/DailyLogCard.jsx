@@ -1,12 +1,12 @@
 import { Card, CardContent, Typography, Box, Stack, Tooltip } from "@mui/material";
 
 const colors = {
-  DRIVING: "#1976d2",
-  ON_DUTY: "#ed6c02",
-  OFF: "#9e9e9e",
-  OFF_DUTY: "#9e9e9e",
-  SLEEPER: "#9c27b0",
-  BREAK: "#ed6c02",
+  DRIVING: "#2563eb",
+  ON_DUTY: "#f59e0b",
+  OFF: "#6b7280",
+  OFF_DUTY: "#6b7280",
+  SLEEPER: "#8b5cf6",
+  BREAK: "#10b981",
 };
 
 const statusLabels = {
@@ -28,6 +28,7 @@ const statusDescriptions = {
 };
 
 const DailyLogCard = ({ day }) => {
+
   const formatTime = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -38,17 +39,25 @@ const DailyLogCard = ({ day }) => {
     const total = day.log_segments
       .filter((seg) => seg.status === status)
       .reduce((sum, seg) => sum + (seg.end_minute - seg.start_minute), 0);
-    
+
     const hours = Math.floor(total / 60);
     const mins = total % 60;
     return `${hours}h ${mins}m`;
   };
 
   return (
-    <Card sx={{ mb: 2, boxShadow: 1, borderRadius: 1.5 }}>
-      <CardContent>
+    <Card
+      sx={{
+        mb: 3,
+        borderRadius: 4,
+        border: "1px solid #e5e7eb",
+        overflow: "hidden",
+        boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+      }}
+    >
+      <CardContent sx={{ p: 3 }}>
         {/* Header */}
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: "#111827" }}>
           Day {day.day_number} – {day.date}
         </Typography>
 
@@ -57,10 +66,10 @@ const DailyLogCard = ({ day }) => {
           sx={{
             position: "relative",
             height: 60,
-            bgcolor: "#f5f5f5",
-            borderRadius: 1,
-            mb: 2,
-            border: "1px solid #e0e0e0",
+            bgcolor: "#f3f4f6",
+            borderRadius: 2,
+            mb: 3,
+            border: "1px solid #e5e7eb",
             overflow: "hidden",
           }}
         >
