@@ -6,18 +6,18 @@ const API = axios.create({
 
 // Add request interceptor for debugging
 API.interceptors.request.use((config) => {
-  console.log("🔵 API Request:", config.method?.toUpperCase(), config.url);
+  console.log("API Request:", config.method?.toUpperCase(), config.url);
   return config;
 });
 
 // Add response interceptor for debugging
 API.interceptors.response.use(
   (response) => {
-    console.log("🟢 API Response:", response.status, response.config.url, response.data);
+    console.log("API Response:", response.status, response.config.url, response.data);
     return response;
   },
   (error) => {
-    console.error("🔴 API Error:", error.message, error.config?.url);
+    console.error("API Error:", error.message, error.config?.url);
     return Promise.reject(error);
   }
 );

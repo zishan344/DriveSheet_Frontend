@@ -23,28 +23,28 @@ const TripDetails = () => {
       try {
         setLoading(true);
         setError(null);
-        console.log("📍 Starting to fetch trip details for ID:", id);
+        console.log("Starting to fetch trip details for ID:", id);
 
         const tripRes = await getTrip(id);
-        console.log("✅ Trip fetched:", tripRes.data);
+        console.log("Trip fetched:", tripRes.data);
         setTrip(tripRes.data);
         setRoute(tripRes.data.geometry);
 
         const stopsRes = await getRouteStops(id);
-        console.log("✅ Stops fetched:", stopsRes.data);
+        console.log("Stops fetched:", stopsRes.data);
         setStops(stopsRes.data.route_stops || []);
         if (stopsRes.data.geometry) {
           setRoute(stopsRes.data.geometry);
         }
 
         const logsRes = await getLogs(id);
-        console.log("✅ Logs fetched:", logsRes.data);
+        console.log("Logs fetched:", logsRes.data);
         setLogs(logsRes.data.daily_logs || []);
 
-        console.log("✅ All data loaded successfully");
+        console.log("All data loaded successfully");
         setLoading(false);
       } catch (err) {
-        console.error("❌ Error fetching trip details:", err);
+        console.error("Error fetching trip details:", err);
         console.error("Error message:", err.message);
         console.error("Error response:", err.response?.data);
         setError(err.response?.data?.detail || err.message || "Failed to load trip details");
