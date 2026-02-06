@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     this.setState({ error, info });
-    // you can also log to remote service here
+    // you can also log to remote service here.
     // console.error(error, info);
   }
 
